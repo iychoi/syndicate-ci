@@ -5,19 +5,25 @@ MAINTAINER Zack Williams <zdw@cs.arizona.edu>
 
 # Install Syndicate UG tools
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --force-yes\
-    python-yaml \
-    syndicate-ug-tools \
-    syndicate-rg \
-    syndicate-ag \
-    syndicatefs \
     build-essential \
     fuse \
+    graphviz \
+    python-pip \
+    python-psutil \
+    python-yaml \
+    syndicate-ag \
+    syndicate-rg \
+    syndicate-ug-tools \
+    syndicatefs \
     valgrind
 
 # Install fstest
 COPY fstest /opt/fstest
 WORKDIR /opt/fstest
 RUN make && cp fstest /usr/bin/ && chmod 777 /usr/bin/fstest
+
+#install additional python tools/modules
+RUN pip install gprof2dot python-magic
 
 # Join to the fuse group
 RUN usermod -aG fuse syndicate
